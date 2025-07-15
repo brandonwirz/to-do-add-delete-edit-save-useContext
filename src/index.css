@@ -1,0 +1,154 @@
+body {
+  font-family: "Roboto, Arial, Helvetica, sans-serif";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  box-sizing: border-box; */
+  /* /* background: #833ab4; */
+  /* background-color: white;
+  /* background: linear-gradient(to right, #673ab7, #cac5c5, #ffffff);
+  background: -webkit-linear-gradient(to right, #673ab7, #cac5c5, #ffffff); */ */
+  color: #fff;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+ .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border:1px solid 
+  grey
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s, color 0.3s;
+  padding: 30px;
+}
+
+.app.light {
+  background: #f0f0f0;
+  background: white;
+  color: #000;
+}
+
+.app.dark {
+  background: #535353;
+  color: #fff;
+}
+form{
+  color: #fff;
+  padding-top: 20px;
+}
+.buttons-container{
+  /* line-height: 40px; */
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+.space {
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+.toggle-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.toggler {
+  display: flex;
+  align-items: center;
+}
+
+.toggler p {
+  font-size: 0.625rem;
+  font-weight: 600;
+}
+
+.toggler--slider {
+  width: 25px;
+  height: 13px;
+  background-color: #2b283a;
+  border-radius: 2rem;
+  margin-inline: 7px;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border: 1px solid black;
+  box-sizing: content-box;
+}
+
+.dark .toggler--slider {
+  border-color: white;
+  background-color: #f5f5f5;
+}
+
+.toggler--slider--circle {
+  height: 13px;
+  width: 13px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.dark .toggler--slider--circle {
+  background-color: black;
+  left: 12px;
+  position: relative;
+}
+
+.toggler--light {
+  color: #2b283a;
+}
+
+/* nav.dark .toggler--light {
+  color: #918e9b;
+} */
+
+.toggler--dark {
+  color: #d5d4d8;
+}
+
+/* nav.dark .toggler-dark {
+  color: #ffffff;
+}
+
+nav.dark .toggler--slider {
+  justify-content: flex-end;
+} */
+
+small {
+  opacity: 0.4;
+  margin-top: 20px;
+  display: block;
+}
+
+div.leading {
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+}
+button.button-spacing {
+  margin: 0 5px 0;
+  height: 25px;
+   /* display: flex;
+  flex-direction: row;  */
+}
+
+
