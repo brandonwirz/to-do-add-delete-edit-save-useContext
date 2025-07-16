@@ -4,6 +4,7 @@ import todos from "./todos.js"
 const app = express()
 const port = 3000
 
+app.use(express.json())
 app.use("/todos", todos)
 
 app.get("/", (req, res) => {

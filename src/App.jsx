@@ -1,17 +1,34 @@
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import ThemeContext from "./ThemeContext"
 import Task from "./Task"
 import Themetoggle from "./Themetoggle"
 import PageContent from "./PageContent"
-import data from "./data"
+// import data from "./data"
+
 import "./index.css"
 
 export default function App() {
   const { theme } = useContext(ThemeContext)
 
   //STATE
-  const [items, setItems] = useState(data)
+  const [items, setItems] = useState([])
   const [newItem, setNewItem] = useState("")
+
+  useEffect(() => {
+    const fetchData = async function () {
+      try {
+        const response = await fetch("/api/todos")
+        if (!response.ok) {
+          throw new Error(response.status)
+        }
+        const result = await response.json()
+        setItems(result)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
+  }, [])
 
   //SUBMIT AND HANDLE FUNCTIONS
   function handleChange(e) {
