@@ -3,6 +3,7 @@ import ThemeContext from "./ThemeContext"
 import Task from "./Task"
 import Themetoggle from "./Themetoggle"
 import PageContent from "./PageContent"
+import axios from "axios"
 // import data from "./data"
 
 import "./index.css"
@@ -17,12 +18,12 @@ export default function App() {
   useEffect(() => {
     const fetchData = async function () {
       try {
-        const response = await fetch("/api/todos")
-        if (!response.ok) {
+        const response = await axios.get("/api/todos")
+        if (response.statusText !== "OK") {
           throw new Error(response.status)
         }
-        const result = await response.json()
-        setItems(result)
+        // const result = await response.json()
+        setItems(response.data)
       } catch (error) {
         console.log(error)
       }
@@ -39,28 +40,80 @@ export default function App() {
     // console.log(handleSubmit)
     e.preventDefault()
     if (newItem === "") return
-    setItems([...items, { text: newItem, id: Math.ceil(Math.random() * 1000) }])
-    setNewItem("")
+    const newObj = { text: newItem, id: "" + Math.ceil(Math.random() * 1000) }
+    // setItems([...items, newObj])
+    // setNewItem("")
+    // const newObj = { text: newItem }
+    axios
+      .post("/api/todos", newObj)
+      .then(() => {
+        setItems([...items, newObj])
+        setNewItem("")
+      })
+      .catch((error) => {
+        alert("Error creating todo:", error)
+      })
   }
 
-  function handleDelete(index) {
-    setItems((prevItems) => {
-      return prevItems.filter((item, i) => i !== index)
-    })
-  }
+  // function handleDelete(index) {
+  //   axios
+  //     .delete(`/api/todos/${index}`)
 
-  function handleSave(index, update) {
-    setItems((prevItems) => {
-      return prevItems.map((item, i) => (i === index ? update : item))
-    })
+  //     .then(() => {
+  //       setItems((prevItems) => {
+  //         return prevItems.filter((item, i) => i !== index)
+  //       })
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error deleting todo:", error)
+  //     })
+  // }
+  function handleDelete(id) {
+    axios
+      .delete(`/api/todos/${id}`)
+      .then(() => {
+        setItems((prevItems) => prevItems.filter((item) => item.id !== id))
+      })
+      .catch((error) => {
+        console.error("Error deleting todo:", error)
+      })
   }
+  // function handleSave(index, update) {
+  //   // console.log(items[index].id)
+  //   axios
+  //     .put(`/api/todos/${items[index].id}`, update)
 
-  const itemList = items.map((item, i) => (
+  //     .then((response) => {
+  //       const update = response.data
+  //       // console.log(response.data)
+  //       setItems((prevItems) =>
+  //         prevItems.map((item, i) => (i === index ? update : item))
+  //       )
+  //     })
+  //     .catch((error) => {
+  //       alert("Error updating new item", error)
+  //     })
+  // }
+  function handleSave(updatedItem) {
+    const index = items.findIndex((item) => item.id === updatedItem.id)
+    axios
+      .put(`/api/todos/${updatedItem.id}`, updatedItem)
+      .then((response) => {
+        const newItem = response.data
+        setItems((prevItems) =>
+          prevItems.map((item, i) => (i === index ? newItem : item))
+        )
+      })
+      .catch((error) => {
+        alert("Error updating new item", error)
+      })
+  }
+  const itemList = items.map((item) => (
     <Task
-      key={i}
+      key={item.id}
       task={item}
-      handleDelete={() => handleDelete(i)}
-      handleSave={(editText) => handleSave(i, editText)}
+      handleDelete={() => handleDelete(item.id)}
+      handleSave={handleSave}
     />
   ))
 
@@ -73,10 +126,10 @@ export default function App() {
           <input
             placeholder="Add a todo..."
             value={newItem}
-            text="type"
+            type="text"
             onChange={handleChange}
           />
-          <button>submit</button>
+          <button type="submit">Add Todo</button>
         </form>
         {itemList}
       </div>

@@ -24,16 +24,20 @@ router.delete("/:id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const { id } = req.params
-  console.log(req.body)
+  console.log(req.body, "the body")
   const { text } = req.body
-
-  const todo = todos.find((t) => t.id === id)
+  console.log(todos)
+  console.log(id)
+  const todo = todos.findIndex((t) => t.id === id)
   todos.splice(todo, 1, req.body)
-  console.log("todo")
-  if (todo) {
-    todo.text = text ?? todo.text
-    res.status(200).json(todo)
+  console.log(todo, "found todo")
+  if (todo !== -1) {
+    todos[todo].text = text
+    res.status(200).json(todos[todo])
   } else {
+    console.log(todos)
+    console.log(id)
+    console.log(todo)
     res.status(404).json({ message: "Todo not found" })
   }
 })

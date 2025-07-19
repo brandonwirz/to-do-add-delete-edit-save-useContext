@@ -5,7 +5,7 @@ export default function Task(props) {
   const [isEditable, setIsEditable] = useState(false)
 
   function handleClick() {
-    props.handleSave({ text: editText, id: props.task.setIsEditable })
+    props.handleSave({ text: editText, id: props.task.id })
     setIsEditable(false)
   }
 
