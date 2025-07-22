@@ -37,37 +37,23 @@ export default function App() {
   }
 
   function handleSubmit(e) {
-    // console.log(handleSubmit)
     e.preventDefault()
     if (newItem === "") return
-    const newObj = { text: newItem, id: "" + Math.ceil(Math.random() * 1000) }
-    // setItems([...items, newObj])
-    // setNewItem("")
-    // const newObj = { text: newItem }
+    const newObj = { text: newItem }
     axios
       .post("/api/todos", newObj)
-      .then(() => {
-        setItems([...items, newObj])
+      .then((res) => {
+        console.log(res.body, "new object")
+        console.dir(res)
+        setItems([...items, res.data.data])
         setNewItem("")
       })
       .catch((error) => {
-        alert("Error creating todo:", error)
+        console.error("Error creating todo:", error)
+        alert("Error creating todo. Please try again.")
       })
   }
 
-  // function handleDelete(index) {
-  //   axios
-  //     .delete(`/api/todos/${index}`)
-
-  //     .then(() => {
-  //       setItems((prevItems) => {
-  //         return prevItems.filter((item, i) => i !== index)
-  //       })
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error deleting todo:", error)
-  //     })
-  // }
   function handleDelete(id) {
     axios
       .delete(`/api/todos/${id}`)
@@ -78,28 +64,13 @@ export default function App() {
         console.error("Error deleting todo:", error)
       })
   }
-  // function handleSave(index, update) {
-  //   // console.log(items[index].id)
-  //   axios
-  //     .put(`/api/todos/${items[index].id}`, update)
 
-  //     .then((response) => {
-  //       const update = response.data
-  //       // console.log(response.data)
-  //       setItems((prevItems) =>
-  //         prevItems.map((item, i) => (i === index ? update : item))
-  //       )
-  //     })
-  //     .catch((error) => {
-  //       alert("Error updating new item", error)
-  //     })
-  // }
   function handleSave(updatedItem) {
     const index = items.findIndex((item) => item.id === updatedItem.id)
     axios
       .put(`/api/todos/${updatedItem.id}`, updatedItem)
       .then((response) => {
-        const newItem = response.data
+        const newItem = response.data.data
         setItems((prevItems) =>
           prevItems.map((item, i) => (i === index ? newItem : item))
         )
